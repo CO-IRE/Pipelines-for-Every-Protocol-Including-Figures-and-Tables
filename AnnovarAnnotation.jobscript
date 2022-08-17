@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -V
+#PBS -N KG01.AnnovarAnnotation
+#PBS -W depend=afterok:481789.hpc-head.hpc.local
+#PBS -lwalltime=100:00:00,nodes=1:ppn=2,mem=20gb
+#PBS -d /storage/root/homes/apittman/SGUL_GRC_PIPELINES/Exomes_hg38/Runs/yjamshidi-2204KNO-0024-macrogene-may2022/KG01/AnnovarAnnotation
+#PBS -e /storage/root/homes/apittman/SGUL_GRC_PIPELINES/Exomes_hg38/Runs/yjamshidi-2204KNO-0024-macrogene-may2022/KG01/AnnovarAnnotation/AnnovarAnnotation.stderr
+#PBS -o /storage/root/homes/apittman/SGUL_GRC_PIPELINES/Exomes_hg38/Runs/yjamshidi-2204KNO-0024-macrogene-may2022/KG01/AnnovarAnnotation/AnnovarAnnotation.stdout
+
+/storage/disk2/HPC_Shared/Genetics_Centre_Bioinformatics/resources/annovar_hg38/table_annovar.pl  /storage/root/homes/apittman/SGUL_GRC_PIPELINES/Exomes_hg38/Annotated/yjamshidi-2204KNO-0024-macrogene-may2022/KG01/KG01.avinput /storage/disk2/HPC_Shared/Genetics_Centre_Bioinformatics/resources/annovar_hg38/humandb -buildver hg38 -out /storage/root/homes/apittman/SGUL_GRC_PIPELINES/Exomes_hg38/Annotated/yjamshidi-2204KNO-0024-macrogene-may2022/KG01/KG01.annovar -remove -protocol refGene,esp6500siv2_all,kaviar_20150923,SGUL_Exomes_AC,SGUL_MEGP_AC,gnomad2_genome_with_het,gnomad3_exome_with_het,gnomad_homozygote_number,hrcr1,gme,avsnp150,dbnsfp33a,dbnsfp31a_interpro,revel,mcap,clinvar_20210501 -operation g,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f -nastring . -polish -otherinfo 
+sleep 5
+exit
