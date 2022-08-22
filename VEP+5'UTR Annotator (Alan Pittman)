@@ -1,0 +1,231 @@
+#!/usr/bin/env python
+
+ 
+
+#SGUL GENETICS CENTRE EXOME VEP March 2022
+
+#wrapper
+
+ 
+
+ 
+
+###############################################################################################
+
+ 
+
+import os
+
+import sys
+
+import subprocess
+
+import csv
+
+ 
+
+#resources:
+
+ 
+
+ 
+
+aramis = "/apittman-aramis/sgul/shares/aramis/"
+
+ 
+
+ 
+
+VEP = aramis + "Genetics_Centre_Bioinformatics/VEP_March_2022/ensembl-vep/vep"
+
+cacheDIR = "--dir_cache=" + aramis + "Genetics_Centre_Bioinformatics/VEP_March_2022/ensembl-vep/"
+
+VEP_filter = aramis + "Genetics_Centre_Bioinformatics/VEP_March_2022/ensembl-vep/filter_vep"
+
+ 
+
+FASTA = aramis + "Genetics_Centre_Bioinformatics/VEP_March_2022/custom_reference_databases/Homo_sapiens_assembly38.fasta"
+
+ 
+
+#Directories
+
+ 
+
+dirpath = os.getcwd()
+
+ 
+
+inputDirectory = dirpath + "/Callum"
+
+outputDirectory = dirpath + "/Output_annotated_VCFs_callum"
+
+outputDirectoryFILTERED = dirpath + "/my_filtered_VCFs"
+
+ 
+
+ 
+
+def display(message):
+
+    print(message)
+
+ 
+
+ 
+
+myVCF = sys.argv
+
+del myVCF[0]
+
+ 
+
+myVCF = str(myVCF)
+
+myVCF = myVCF.lstrip('[')
+
+myVCF = myVCF.lstrip("'")
+
+myVCF = myVCF.rstrip(']')
+
+myVCF = myVCF.rstrip("'")   
+
+ 
+
+display("SGUL Genetics Research Variant Effect Predictor March 2022\n")
+
+ 
+
+print("Annotating VCF file :")
+
+print(myVCF)
+
+ 
+
+print("\n")
+
+ 
+
+myVCF_ANDpath = inputDirectory + "/" + myVCF
+
+myOutputVCF_ANDpath = outputDirectory + "/" + myVCF + ".anno.txt"
+
+ 
+
+########## VEP COMMAND LINE ARGUMENTS #################################
+
+ 
+
+VEP_annotate_Command = [VEP, \
+
+'-i', \
+
+myVCF_ANDpath, \
+
+'--cache', \
+
+cacheDIR, \
+
+'--offline', \
+
+'"--assembly GRCh38"', \
+
+'"--fork 12"', \
+
+ 
+
+'--force_overwrite', \
+
+
+ '--fasta', FASTA, \
+
+
+ '--dir_plugins', \
+
+'/apittman-aramis/sgul/shares/aramis/Genetics_Centre_Bioinformatics/VEP_March_2022/ensembl-vep/Plugins/UTRannotator', \
+
+
+ '--plugin', "UTRannotator,/apittman-aramis/sgul/shares/aramis/mbird/apittman/ensembl-vep/cache/Plugins/uORF_5UTR_GRCh38_PUBLIC.txt", \
+
+ 
+
+
+ 
+
+ '--custom', "/apittman-aramis/sgul/shares/aramis/Genetics_Centre_Bioinformatics/VEP_March_2022/custom_reference_databases/GRC_Oct_2021.joint-called.vcf.gz,SGUL_Exomes,vcf,exact,0,AC,FILTER", \
+
+
+ 
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+'--individual', 'all', \
+
+
+ 
+
+
+ '--everything', \
+
+'--pick', \
+
+
+ '--tab', \
+
+'-o', \
+
+myOutputVCF_ANDpath]
+
+ 
+
+print("VEP command line argument:")
+
+print("\n")
+
+display(VEP_annotate_Command)
+
+print("\n")
+
+print("Executing VEP annotation; put the kettle on!")
+
+
+################ RUN VEP COMMAND #####################################
+
+ 
+
+subprocess.check_call(VEP_annotate_Command)
+
+ 
+
+#',/apittman-aramis/sgul/shares/aramis/mbird/apittman/ensembl-vep/cache/Plugins/uORF_5UTR_GRCh38_PUBLIC.txt", \
+
+  #'--format', 'vcf', \
+
+#
+
+ 
+
+#
+
+
+ #'
+
+ 
+
+#'--plugin', "UTRannotator,/apittman-aramis/sgul/shares/aramis/Genetics_Centre_Bioinformatics/VEP_March_2022/custom_reference_databases/uORF_starts_ends_GRCh38_PUBLIC.txt", \
+
+ 
+
+ 
+
+##########################
