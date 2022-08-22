@@ -1,0 +1,7 @@
+for VCF in $myVCFs; do
+
+	python VEP_v2.1_March_2022-tab-output-UTRannotator-callum.py $VCF
+	
+done	
+
+exit
